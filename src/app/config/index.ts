@@ -1,3 +1,6 @@
+// This file handles loading environment variables using dotenv and exporting them for use throughout the application.
+// It ensures centralized access to important configuration settings.
+
 import dotenv from 'dotenv';
 import path from 'path';
 
