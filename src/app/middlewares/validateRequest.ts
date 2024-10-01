@@ -1,3 +1,4 @@
+//* Middleware to validate request data against a specified Zod schema.
 import { NextFunction, Request, Response } from 'express';
 import { AnyZodObject } from 'zod';
 import catchAsync from '../utils/catchAsync';

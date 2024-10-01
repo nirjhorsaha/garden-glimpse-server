@@ -11,16 +11,17 @@ import handleZodError from '../errors/handleZodError';
 import { TErrorSources } from '../interface/error';
 
 const globalErrorHandler: ErrorRequestHandler = (err, req, res, next) => {
-  //setting default values
+  //setting default values for error response
   let statusCode = 500;
   let message = 'Something went wrong!';
   let errorSources: TErrorSources = [
     {
       path: '',
-      message: 'Something went wrong',
+      message: 'Something went wrong.!',
     },
   ];
 
+  // Handling various error types
   if (err instanceof ZodError) {
     const simplifiedError = handleZodError(err);
     statusCode = simplifiedError?.statusCode;
@@ -60,7 +61,7 @@ const globalErrorHandler: ErrorRequestHandler = (err, req, res, next) => {
     ];
   }
 
-  //ultimate return
+  // Sending the final error response
   return res.status(statusCode).json({
     success: false,
     message,

@@ -1,3 +1,4 @@
+//* Sends a standardized response for requests to routes that do not exist.
 import { error } from 'console';
 import { Request, Response } from 'express';
 import httpStatus from 'http-status';

@@ -51,13 +51,7 @@ const authorizeAdmin = (req: Request, res: Response, next: NextFunction) => {
   }
 };
 
-// Function to verify jwt token
-// const verifyToken = (token: string) => {
-//   return jwt.verify(token, process.env.jwt_access_secret as string) as {
-//     email: string;
-//   };
-// };
-
+// function to verify the JWT and extract user information.
 const verifyToken = (token: string) => {
   try {
     return jwt.verify(token, config.jwt_access_secret as string) as {

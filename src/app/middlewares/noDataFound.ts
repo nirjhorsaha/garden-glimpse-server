@@ -1,3 +1,5 @@
+//* Sends a standardized response indicating that no data was found.
+
 import httpStatus from 'http-status';
 import { Response } from 'express';
 
