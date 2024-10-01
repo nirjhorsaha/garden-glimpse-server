@@ -1,5 +1,6 @@
 import { Response } from 'express';
 
+// Define a generic type for the response structure
 type TResponse<T> = {
   statusCode: number;
   success: boolean;
@@ -8,6 +9,7 @@ type TResponse<T> = {
   data?: T;
 };
 
+//* Sends a standardized JSON response to the client.
 const sendResponse = <T>(res: Response, data: TResponse<T>) => {
   res.status(data?.statusCode).json({
     success: data.success,

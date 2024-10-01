@@ -1,3 +1,4 @@
+//* A higher-order function to wrap asynchronous Express route handlers.
 import { NextFunction, Request, RequestHandler, Response } from 'express';
 
 const catchAsync = (fn: RequestHandler) => {
