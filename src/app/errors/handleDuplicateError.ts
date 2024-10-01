@@ -1,4 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+
+// This function handles duplicate key errors from Mongoose, typically when attempting to create a record with a unique field that already exists.
+// It extracts the conflicting value from the error message and formats a standardized error response.
 import { TErrorSources, TGenericErrorResponse } from '../interface/error';
 
 const handleDuplicateError = (err: any): TGenericErrorResponse => {

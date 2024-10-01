@@ -1,3 +1,6 @@
+// This function handles Mongoose ValidationError exceptions, typically thrown when a document fails schema validation.
+// It maps over the validation errors and returns a standardized error response format.
+
 import mongoose from 'mongoose';
 import { TErrorSources, TGenericErrorResponse } from '../interface/error';
 

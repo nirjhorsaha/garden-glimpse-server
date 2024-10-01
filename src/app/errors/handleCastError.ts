@@ -1,3 +1,6 @@
+// This function handles Mongoose CastError exceptions, typically thrown when an invalid ID or type is passed to a query.
+// It converts the Mongoose error into a standardized error response format.
+
 import mongoose from 'mongoose';
 import { TErrorSources, TGenericErrorResponse } from '../interface/error';
 
