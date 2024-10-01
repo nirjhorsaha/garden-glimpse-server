@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <title>Payment Confirmation - Nexus Reserve</title>
+    <style>
+      html,
+      body {
+        height: 100%;
+        margin: 0;
+        font-family: 'Nunito', sans-serif;
+        color: #333;
+        background-color: #f8f9fa;
+      }
+      body {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+      }
+      .container {
+        max-width: 600px;
+        width: 100%;
+        padding: 30px;
+        background: #ffffff;
+        border-radius: 12px;
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+        text-align: center;
+      }
+      h1 {
+        color: #22c55e;
+        font-size: 2.8em;
+        margin-bottom: 20px;
+        font-weight: 700;
+        text-align: center;
+      }
+      .success-payment {
+        color: #249c2e;
+        font-size: 2.8em;
+        margin-bottom: 20px;
+        font-weight: 700;
+      }
+      .failed-payment {
+        color: #ef4444;
+        font-size: 2.8em;
+        margin-bottom: 20px;
+        font-weight: 700;
+      }
+      h3 {
+        font-weight: 500;
+      }
+      p {
+        font-size: 16px;
+        color: #495057;
+        margin-bottom: 20px;
+        line-height: 1.6;
+      }
+      .bold {
+        font-weight: 700;
+      }
+      .button {
+        display: inline-block;
+        padding: 12px 24px;
+        margin: 15px 0;
+        color: #ffffff;
+        background-color: #3b82f6;
+        text-decoration: none;
+        border-radius: 8px;
+        font-size: 18px;
+        font-weight: 600;
+        transition:
+          background-color 0.3s,
+          transform 0.2s;
+      }
+      .button:hover {
+        background-color: #2563eb;
+        transform: scale(1.05);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="">{{message}}</div>
+  </body>
+</html>

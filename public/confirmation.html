@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <title>Payment Confirmation - Nexus Reserve</title>
+    <style>
+      :root {
+        --primary-color: #3b82f6;
+        --primary-dark: #2563eb;
+        --success-color: #249c2e;
+        --failed-color: #ef4444;
+        --background-color: #f8f9fa;
+        --text-color: #333;
+        --text-light: #495057;
+        --border-color: #ddd;
+        --font-size-large: 2.8em;
+        --font-size-medium: 2.4em;
+        --font-size-small: 2em;
+      }
+      html,
+      body {
+        height: 100%;
+        margin: 0;
+        font-family: 'Nunito', sans-serif;
+        color: var(--text-color);
+        background-color: var(--background-color);
+      }
+      body {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+      }
+      .container {
+        max-width: 600px;
+        width: 100%;
+        padding: 30px;
+        background: #ffffff;
+        border-radius: 12px;
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+        text-align: center;
+      }
+      h1 {
+        color: var(--success-color);
+        font-size: var(--font-size-large);
+        margin-bottom: 20px;
+        font-weight: 700;
+        text-align: center;
+      }
+      .success-payment {
+        color: var(--success-color);
+        font-size: var(--font-size-large);
+        margin-bottom: 20px;
+        font-weight: 700;
+      }
+      .failed-payment {
+        color: #ef4444;
+        font-size: 2.8em;
+        margin-bottom: 20px;
+        font-weight: 700;
+      }
+      h3 {
+        font-weight: 500;
+      }
+      p {
+        font-size: 16px;
+        color: var(--text-light);
+        margin-bottom: 20px;
+        line-height: 1.6;
+      }
+      .bold {
+        font-weight: 700;
+      }
+      .button {
+        display: inline-block;
+        padding: 12px 24px;
+        margin: 15px 0;
+        color: #ffffff;
+        background-color: var(--primary-color);
+        text-decoration: none;
+        border-radius: 8px;
+        font-size: 18px;
+        font-weight: 600;
+        transition:
+          background-color 0.3s,
+          transform 0.2s;
+      }
+      .button:hover {
+        background-color: var(--primary-dark);
+      }
+      /* Media query for tablets and smaller screens */
+      @media (max-width: 768px) {
+        .container {
+          padding: 20px;
+        }
+        h1,
+        .success-payment,
+        .failed-payment {
+          font-size: var(--font-size-medium);
+        }
+        p {
+          font-size: 14px;
+        }
+        .button {
+          font-size: 16px;
+        }
+      }
+
+      /* Media query for small devices (mobile phones) */
+      @media (max-width: 480px) {
+        body {
+          padding: 10px;
+        }
+        .container {
+          padding: 15px;
+        }
+        h1,
+        .success-payment,
+        .failed-payment {
+          font-size: var(--font-size-small);
+        }
+        p {
+          font-size: 14px;
+          line-height: 1.4;
+        }
+        .button {
+          padding: 10px 20px;
+          font-size: 14px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="">{{message}}</div>
+  </body>
+</html>
