@@ -10,7 +10,7 @@ class QueryBuilder<T> {
     this.query = query;
   }
 
-  // * Adds a search condition to the query based on the provided searchable fields.
+  // * Add a search condition to the query based on the provided searchable fields.
   search(searchableFields: string[]) {
     const searchTerm = this?.query?.searchTerm;
 
@@ -42,7 +42,7 @@ class QueryBuilder<T> {
 
   // * Sorts the query results based on the provided sort string.
   sort() {
-    const sortField = (this?.query?.sort as string) || 'price'; // Default sort field is 'price'
+    const sortField = (this?.query?.sort as string) || 'price'; // Default sort field
 
     const isDescending = sortField.startsWith('-'); // If the sorting is descending
 
