@@ -4,6 +4,8 @@ import jwt, { JwtPayload } from 'jsonwebtoken';
 import config from '../config';
 import sendResponse from '../utils/sendResponse';
 import httpStatus from 'http-status';
+import bcrypt from 'bcrypt';
+
 
 // Middleware for authenticate users
 const authenticateUser = (req: Request, res: Response, next: NextFunction) => {
@@ -62,4 +64,11 @@ const verifyToken = (token: string) => {
     throw new Error('Invalid token');
   }
 };
-export { authenticateUser, authorizeAdmin, verifyToken };
+
+// function to hash the password before saving
+const hashPassword = async (password: string) => {
+  return await bcrypt.hash(password, Number(config.bcrypt_salt_round));
+};
+
+
+export { authenticateUser, authorizeAdmin, verifyToken, hashPassword };
