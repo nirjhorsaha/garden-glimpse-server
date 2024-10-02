@@ -36,6 +36,21 @@ const userlogin = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+
+// Function to handle refresh token
+const refreshToken = catchAsync(async (req, res) => {
+  const { refreshToken } = req.cookies;
+  const result = await AuthService.refreshToken(refreshToken);
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Access token is retrieved succesfully!',
+    data: result,
+  });
+});
+
+// Function to handle change password
 const changePassword = catchAsync(async (req, res) => {
   const token = req.headers.authorization?.split(' ')[1];
   if (!token) {
@@ -56,21 +71,41 @@ const changePassword = catchAsync(async (req, res) => {
   });
 });
 
-// Function to handle refresh token
-const refreshToken = catchAsync(async (req, res) => {
-  const { refreshToken } = req.cookies;
-  const result = await AuthService.refreshToken(refreshToken);
-
+// Function to handle forgot password
+const forgetPassword = catchAsync(async (req, res) => {
+  const userEmail = req.body.email;
+  const result = await AuthService.forgetPassword(userEmail);
+  
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: 'Access token is retrieved succesfully!',
+    message: 'Reset link is generated succesfully!',
     data: result,
   });
 });
+
+
+// Function to handle reset password
+const resetPassword = catchAsync(async (req, res) => {
+  const token = req.headers.authorization?.split(' ')[1];
+  if (!token) {
+    throw new AppError(httpStatus.BAD_REQUEST, 'Something went wrong !');
+  }
+
+  const result = await AuthService.resetPassword(req.body, token);
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Password reset succesfully!',
+    data: result,
+  });
+});
+
 
 export const AuthController = {
   userlogin,
   changePassword,
   refreshToken,
+  forgetPassword,
+  resetPassword,
 };

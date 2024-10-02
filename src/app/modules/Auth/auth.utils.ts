@@ -1,3 +1,4 @@
+// * Creates a JWT for authentication.
 import jwt from 'jsonwebtoken';
 
 export const createToken = (
