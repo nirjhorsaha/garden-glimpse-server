@@ -32,11 +32,10 @@ const userlogin = catchAsync(async (req: Request, res: Response) => {
     message: 'User logged in successfully',
     data: {
       ...userData,
-      refreshToken
+      refreshToken,
     },
   });
 });
-
 
 // Function to handle refresh token
 const refreshToken = catchAsync(async (req, res) => {
@@ -47,7 +46,7 @@ const refreshToken = catchAsync(async (req, res) => {
     secure: config.NODE_ENV === 'production',
     httpOnly: true,
   });
-  
+
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
@@ -68,7 +67,7 @@ const changePassword = catchAsync(async (req, res) => {
   const { ...passwordData } = req.body;
 
   const result = await AuthService.changePassword(userEmail, passwordData);
-  
+
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
@@ -81,7 +80,7 @@ const changePassword = catchAsync(async (req, res) => {
 const forgetPassword = catchAsync(async (req, res) => {
   const userEmail = req.body.email;
   const result = await AuthService.forgetPassword(userEmail);
-  
+
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
@@ -89,7 +88,6 @@ const forgetPassword = catchAsync(async (req, res) => {
     data: result,
   });
 });
-
 
 // Function to handle reset password
 const resetPassword = catchAsync(async (req, res) => {
@@ -106,7 +104,6 @@ const resetPassword = catchAsync(async (req, res) => {
     data: result,
   });
 });
-
 
 export const AuthController = {
   userlogin,

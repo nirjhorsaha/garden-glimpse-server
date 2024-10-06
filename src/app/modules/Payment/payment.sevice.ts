@@ -2,7 +2,6 @@
 // import { verifyPayment } from './payment.utils';
 // import { readFileSync } from 'fs';
 
-
 // const confirmationService = async (transactionID: string) => {
 //   const verifyResponse = await verifyPayment(transactionID); // Verify payment
 
@@ -60,8 +59,8 @@
 //                               .map(
 //                                 (
 //                                   slot,
-//                                 ) => `<div><li><strong>Date</strong>: ${slot.date}, 
-//                             <strong>Start Time:</strong> ${slot?.startTime}, 
+//                                 ) => `<div><li><strong>Date</strong>: ${slot.date},
+//                             <strong>Start Time:</strong> ${slot?.startTime},
 //                             <strong>End Time:</strong> ${slot?.endTime}</li></div>`,
 //                               )
 //                               .join('')}

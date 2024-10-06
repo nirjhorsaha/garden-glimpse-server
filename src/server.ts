@@ -5,7 +5,6 @@ import app from './app';
 async function main() {
   try {
     // console.log(config.database_url)
-
     await mongoose.connect(config.database_url as string);
 
     app.listen(config.port, () => {

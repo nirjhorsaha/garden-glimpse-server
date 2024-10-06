@@ -113,10 +113,10 @@ const getFavoritePosts = catchAsync(async (req, res) => {
   }
 
   const decodedToken = verifyToken(token);
-  const userId = decodedToken.userId; 
+  const userId = decodedToken.userId;
 
   const favoritePosts = await UserService.getFavoritePosts(userId);
-  
+
   if (favoritePosts.length === 0) {
     noDataFound(res, 'NO Favorite Posts Found.!');
   }

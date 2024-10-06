@@ -4,6 +4,7 @@ import { PaymentData } from './payment.interface';
 
 dotenv.config();
 
+// Function to initiate payment with the payment gateway
 export const initiatePayment = async (paymentData: PaymentData) => {
   try {
     const response = await axios.post(process.env.PAYMENT_URL!, {
@@ -27,12 +28,13 @@ export const initiatePayment = async (paymentData: PaymentData) => {
       cus_phone: paymentData.customerPhone,
       type: 'json',
     });
-    return response.data;
+    return response.data; // Return payment initiation response data
   } catch (error) {
-    throw new Error('Failed to initiate payment. Please try again.');
+    throw new Error('Failed to initiate payment.! Please try again.');
   }
 };
 
+// Function to verify payment status using the transaction ID
 export const verifyPayment = async (tnxId: string) => {
   try {
     const response = await axios.get(process.env.PAYMENT_VERIFY_URL!, {
@@ -43,8 +45,8 @@ export const verifyPayment = async (tnxId: string) => {
         request_id: tnxId,
       },
     });
-    return response.data;
+    return response.data; // Return payment verification response data
   } catch (error) {
-    throw new Error('Payment validation failed!');
+    throw new Error('Payment validation failed.!');
   }
 };

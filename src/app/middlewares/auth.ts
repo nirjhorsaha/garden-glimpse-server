@@ -6,7 +6,6 @@ import sendResponse from '../utils/sendResponse';
 import httpStatus from 'http-status';
 import bcrypt from 'bcrypt';
 
-
 // Middleware for authenticate users
 const authenticateUser = (req: Request, res: Response, next: NextFunction) => {
   const token = req.header('Authorization')?.replace('Bearer ', '');
@@ -69,6 +68,5 @@ const verifyToken = (token: string) => {
 const hashPassword = async (password: string) => {
   return await bcrypt.hash(password, Number(config.bcrypt_salt_round));
 };
-
 
 export { authenticateUser, authorizeAdmin, verifyToken, hashPassword };

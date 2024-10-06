@@ -26,11 +26,10 @@ const updateUser = async (userEmail: string, updateData: Partial<IUser>) => {
   return updatedUser;
 };
 
-
 const addFavoritePost = async (userId: string, postId: string) => {
   // Check if the user already has the post in their favorites
   const user = await User.findById(userId);
-  
+
   if (!user) {
     throw new AppError(httpStatus.NOT_FOUND, 'User not found');
   }
@@ -47,19 +46,18 @@ const addFavoritePost = async (userId: string, postId: string) => {
   await user.save();
 
   // Populate post details
-  const populatedPosts = await Post.find({ _id: { $in: user.favouritePosts } })
-    
+  const populatedPosts = await Post.find({ _id: { $in: user.favouritePosts } });
+
   return {
     user,
     favouritePosts: populatedPosts,
   }; // Return the updated user along with populated posts
 };
 
-
 const removeFavoritePost = async (userId: string, postId: string) => {
   // Find the user by ID
   const user = await User.findById(userId);
-  
+
   if (!user) {
     throw new AppError(httpStatus.NOT_FOUND, 'User not found');
   }
@@ -70,7 +68,7 @@ const removeFavoritePost = async (userId: string, postId: string) => {
   }
 
   // Remove the postId from the user's favouritePosts array
-  user.favouritePosts = user.favouritePosts.filter(id => id !== postId);
+  user.favouritePosts = user.favouritePosts.filter((id) => id !== postId);
 
   // Save the updated user document
   await user.save();
@@ -86,11 +84,10 @@ const getFavoritePosts = async (userId: string) => {
   }
 
   // Populate the details of the favorite posts
-  const populatedPosts = await Post.find({ _id: { $in: user.favouritePosts } })
+  const populatedPosts = await Post.find({ _id: { $in: user.favouritePosts } });
 
   return populatedPosts; // Return the populated favorite posts
 };
-
 
 export const UserService = {
   createUser,
@@ -98,5 +95,5 @@ export const UserService = {
   getAllUsers,
   addFavoritePost,
   removeFavoritePost,
-  getFavoritePosts
+  getFavoritePosts,
 };

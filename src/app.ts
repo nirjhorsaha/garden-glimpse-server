@@ -23,9 +23,10 @@ app.use('/api', router); // Application routes
 
 // Root route
 app.get('/', (req: Request, res: Response) => {
-  res.send('Welcome to Garden Glimpse! Discover and share your gardening knowledge with our vibrant community.');
+  res.send(
+    'Welcome to Garden Glimpse! Discover and share your gardening knowledge with our vibrant community.',
+  );
 });
-
 
 app.use(globalErrorHandler); // Global error handling middlewares
 
