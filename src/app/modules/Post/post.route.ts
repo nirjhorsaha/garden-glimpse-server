@@ -19,6 +19,8 @@ router.get('/:id', PostController.getPostById);
 
 router.get('/user/my-post', authenticateUser, PostController.getUserPost);
 
+router.get('/user/:authorId', PostController.getSingleUserPost);
+
 router.patch(
   '/:id',
   authenticateUser,

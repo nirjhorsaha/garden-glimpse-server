@@ -2,13 +2,13 @@ import { Types } from 'mongoose';
 
 export interface IComments {
   _id?: string;
-  commentatorId: Types.ObjectId; // commentator id
+  commentatorId: Types.ObjectId; // Commentator id
   comment: string;
   isDeleted: boolean;
 }
 
 export interface IPost {
-  authorId: Types.ObjectId; // author's id
+  authorId: Types.ObjectId; // Author's id
   title: string;
   content: string;
   category:

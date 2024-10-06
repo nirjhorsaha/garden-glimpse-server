@@ -1,3 +1,3 @@
-export const TCategory = ['Vegetables', 'Flowers', 'Landscaping', 'Succulents', 'Others'];
+export const TCategory = ['Vegetables', 'Flowers', 'Landscaping', 'Succulents', 'Others', ];
 
-export const PostSearchableFields = ['name', 'title', 'category', ];
+export const PostSearchableFields = ['name', 'title', 'category', ]; // array of searchable fields

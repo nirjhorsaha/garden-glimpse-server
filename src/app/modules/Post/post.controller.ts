@@ -21,12 +21,12 @@ const createPost = catchAsync(async (req, res) => {
 
 const getAllPosts = catchAsync(async (req, res) => {
   const posts = await PostService.getAllPosts(req.query);
-  // Check if any posts were found
+
   if (posts.result.length === 0) {
     return sendResponse(res, {
       success: false,
       statusCode: httpStatus.NOT_FOUND,
-      message: 'No posts found',
+      message: 'No posts found.!',
       data: [],
     });
   }
@@ -48,7 +48,7 @@ const getPostById = catchAsync(async (req, res) => {
     return sendResponse(res, {
       success: false,
       statusCode: httpStatus.NOT_FOUND,
-      message: 'Post not found',
+      message: 'Post not found.!',
     });
   }
 
@@ -62,6 +62,7 @@ const getPostById = catchAsync(async (req, res) => {
 
 const getUserPost = catchAsync(async (req, res) => {
   const token = req.headers.authorization?.split(' ')[1];
+
   if (!token) {
     return sendResponse(res, {
       success: false,
@@ -83,6 +84,27 @@ const getUserPost = catchAsync(async (req, res) => {
     success: true,
     statusCode: httpStatus.OK,
     message: 'User post retrieved successfully',
+    data: post,
+  });
+});
+
+const getSingleUserPost = catchAsync(async (req, res) => {
+  const { authorId } = req.params;
+
+  const post = await PostService.getSingleUserPost(authorId);
+
+  if (post.length === 0) {
+    return sendResponse(res, {
+      success: false,
+      statusCode: httpStatus.NOT_FOUND,
+      message: 'Post not found for this user.!',
+    });
+  }
+
+  sendResponse(res, {
+    success: true,
+    statusCode: httpStatus.OK,
+    message: 'Post retrieved successfully',
     data: post,
   });
 });
@@ -145,97 +167,102 @@ const addComment = catchAsync(async (req, res) => {
 
 // Update a comment on a post
 const updateComment = catchAsync(async (req, res) => {
-    const { postId, commentId } = req.params;
-    const { comment } = req.body;
-  
-    // Extract user ID from the token
-    const token = req.headers.authorization?.split(' ')[1];
-    if (!token) {
-      return sendResponse(res, {
-        success: false,
-        statusCode: httpStatus.UNAUTHORIZED,
-        message: 'Authorization token not found',
-      });
-    }
-    
-    const decodedToken = verifyToken(token);
-    const userId = decodedToken.userId;
-  
-    // Fetch the comment to verify ownership
-    const existingComment = await PostService.getCommentById(postId, commentId);
-    if (!existingComment || existingComment.commentatorId.toString() !== userId) {
-      return sendResponse(res, {
-        success: false,
-        statusCode: httpStatus.FORBIDDEN,
-        message: 'You are not authorized to update this comment',
-      });
-    }
-  
-    // Proceed with update
-    const updatedCommentData = { comment };
-    const updatedPost = await PostService.updateComment(postId, commentId, updatedCommentData);
-  
-    if (!updatedPost) {
-      return noDataFound(res, 'Comment not found');
-    }
-  
-    sendResponse(res, {
-      success: true,
-      statusCode: httpStatus.OK,
-      message: 'Comment updated successfully',
-      data: updatedPost,
+  const { postId, commentId } = req.params;
+  const { comment } = req.body;
+
+  // Extract user ID from the token
+  const token = req.headers.authorization?.split(' ')[1];
+  if (!token) {
+    return sendResponse(res, {
+      success: false,
+      statusCode: httpStatus.UNAUTHORIZED,
+      message: 'Authorization token not found',
     });
+  }
+
+  const decodedToken = verifyToken(token);
+  const userId = decodedToken.userId;
+
+  // Fetch the comment to verify ownership
+  const existingComment = await PostService.getCommentById(postId, commentId);
+
+  if (!existingComment || existingComment.commentatorId.toString() !== userId) {
+    return sendResponse(res, {
+      success: false,
+      statusCode: httpStatus.FORBIDDEN,
+      message: 'You are not authorized to update this comment',
+    });
+  }
+
+  // Proceed with update
+  const updatedCommentData = { comment };
+  const updatedPost = await PostService.updateComment(
+    postId,
+    commentId,
+    updatedCommentData,
+  );
+
+  if (!updatedPost) {
+    return noDataFound(res, 'Comment not found');
+  }
+
+  sendResponse(res, {
+    success: true,
+    statusCode: httpStatus.OK,
+    message: 'Comment updated successfully',
+    data: updatedPost,
   });
-  
+});
 
 // Delete a comment on a post
 const deleteComment = catchAsync(async (req, res) => {
-    const { postId, commentId } = req.params;
-  
-    // Extract user ID from the token
-    const token = req.headers.authorization?.split(' ')[1];
-    if (!token) {
-      return sendResponse(res, {
-        success: false,
-        statusCode: httpStatus.UNAUTHORIZED,
-        message: 'Authorization token not found',
-      });
-    }
-  
-    const decodedToken = verifyToken(token);
-    const userId = decodedToken.userId;
-  
-    // Fetch comment by ID to verify ownership
-    const existingComment = await PostService.getCommentById(postId, commentId);
-    if (!existingComment || existingComment.commentatorId.toString() !== userId) {
-      return sendResponse(res, {
-        success: false,
-        statusCode: httpStatus.FORBIDDEN,
-        message: 'You are not authorized to delete this comment',
-      });
-    }
-  
-    // Proceed with deletion
-    const updatedPost = await PostService.deleteComment(postId, commentId);
-  
-    if (!updatedPost) {
-      return noDataFound(res, 'Comment not found');
-    }
-  
-    sendResponse(res, {
-      success: true,
-      statusCode: httpStatus.OK,
-      message: 'Comment deleted successfully',
-      data: updatedPost,
+  const { postId, commentId } = req.params;
+
+  // Extract user ID from the token
+  const token = req.headers.authorization?.split(' ')[1];
+  if (!token) {
+    return sendResponse(res, {
+      success: false,
+      statusCode: httpStatus.UNAUTHORIZED,
+      message: 'Authorization token not found',
     });
+  }
+
+  const decodedToken = verifyToken(token);
+  const userId = decodedToken.userId;
+
+  // Fetch comment by ID to verify ownership
+  const existingComment = await PostService.getCommentById(postId, commentId);
+  if (!existingComment || existingComment.commentatorId.toString() !== userId) {
+    return sendResponse(res, {
+      success: false,
+      statusCode: httpStatus.FORBIDDEN,
+      message: 'You are not authorized to delete this comment',
+    });
+  }
+
+  // Proceed with deletion
+  const updatedPost = await PostService.deleteComment(postId, commentId);
+
+  if (!updatedPost) {
+    return noDataFound(res, 'Comment not found');
+  }
+
+  sendResponse(res, {
+    success: true,
+    statusCode: httpStatus.OK,
+    message: 'Comment deleted successfully',
+    data: updatedPost,
   });
-  
+});
+
 // Exporting all the controller methods
 export const PostController = {
   createPost,
   getAllPosts,
   getPostById,
   getUserPost,
+  getSingleUserPost,
   updatePost,
   deletePost,
   addComment,

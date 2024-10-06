@@ -10,9 +10,7 @@ const createPost = async (postData: IPost): Promise<IPost> => {
   return await post.save();
 };
 
-// const getAllPosts = async (): Promise<IPost[]> => {
-//   return await Post.find({ isDeleted: false }).populate('authorId', 'name');
-// };
+
 const getAllPosts = async (query: Record<string, unknown>) => {
   const postQuery = new QueryBuilder(
     Post.find({ isDeleted: false }).populate('authorId', 'name'),
@@ -31,8 +29,16 @@ const getAllPosts = async (query: Record<string, unknown>) => {
   };
 };
 
+
 const getSinglePost = async (postId: Types.ObjectId): Promise<IPost | null> => {
   return await Post.findById(postId);
+};
+
+const getSingleUserPost = async (authorId: string) => {
+  return await Post.find({
+    authorId,
+    isDeleted: false,
+  });
 };
 
 const getUserPost = async (email: string) => {
@@ -46,6 +52,7 @@ const getUserPost = async (email: string) => {
   return findPost;
 };
 
+
 const updatePost = async (
   postId: string,
   updatedData: Partial<IPost>,
@@ -55,6 +62,7 @@ const updatePost = async (
   }
   return await Post.findByIdAndUpdate(postId, updatedData, { new: true });
 };
+
 
 const deletePost = async (postId: string): Promise<IPost | null> => {
   if (!mongoose.isValidObjectId(postId)) {
@@ -66,6 +74,7 @@ const deletePost = async (postId: string): Promise<IPost | null> => {
     { new: true },
   );
 };
+
 
 // Add a comment to a post
 const addComment = async (postId: string, commentData: IComments) => {
@@ -179,6 +188,7 @@ export const PostService = {
   createPost,
   getAllPosts,
   getSinglePost,
+  getSingleUserPost,
   getUserPost,
   updatePost,
   deletePost,

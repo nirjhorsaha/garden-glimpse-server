@@ -37,7 +37,14 @@ const PostSchema = new Schema<IPost>(
     },
     category: {
       type: String,
-      enum: ['Vegetables', 'Flowers', 'Landscaping', 'Succulents', 'Indoor Plants', 'Others'],
+      enum: [
+        'Vegetables',
+        'Flowers',
+        'Landscaping',
+        'Succulents',
+        'Indoor Plants',
+        'Others',
+      ],
       required: true,
     },
     images: {
