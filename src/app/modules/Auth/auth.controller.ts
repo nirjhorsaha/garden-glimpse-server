@@ -32,6 +32,7 @@ const userlogin = catchAsync(async (req: Request, res: Response) => {
     message: 'User logged in successfully',
     data: {
       ...userData,
+      refreshToken
     },
   });
 });
@@ -42,6 +43,11 @@ const refreshToken = catchAsync(async (req, res) => {
   const { refreshToken } = req.cookies;
   const result = await AuthService.refreshToken(refreshToken);
 
+  res.cookie('refreshToken', refreshToken, {
+    secure: config.NODE_ENV === 'production',
+    httpOnly: true,
+  });
+  
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,

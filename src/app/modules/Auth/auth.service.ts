@@ -21,6 +21,11 @@ const loginUser = async (payload: TLoginUser) => {
     userId: user?._id,
     email: user.email,
     role: user.role,
+    name: user?.name,
+    profileImage: user?.profileImage,
+    address: user?.address,
+    phone: user?.phone,
+    favouritePosts: user?.favouritePosts,
   };
 
   // Generate JWT token
