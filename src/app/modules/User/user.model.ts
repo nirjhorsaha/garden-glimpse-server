@@ -74,11 +74,12 @@ userSchema.set('toJSON', {
   },
 });
 
-
+// Static method to find a user by their email address
 userSchema.statics.findUserByEmail = async function (email: string) {
   return await User.findOne({ email });
 };
 
+// Static method to compare a plain text password with a hashed password
 userSchema.statics.isPasswordMatched = async function (
   plainTextPassword,
   hashedPassword,
@@ -86,7 +87,7 @@ userSchema.statics.isPasswordMatched = async function (
   return await bcrypt.compare(plainTextPassword, hashedPassword);
 };
 
-
+// Method to add a post to the user's list of favorite posts
 userSchema.methods.addFavouritePost = async function (postId: string) {
   if (!this.favouritePosts) {
     this.favouritePosts = [];
@@ -98,6 +99,7 @@ userSchema.methods.addFavouritePost = async function (postId: string) {
   }
 };
 
+// Method to remove a post from the user's list of favorite posts
 userSchema.methods.removeFavouritePost = async function (postId: string) {
   if (this.favouritePosts) {
     this.favouritePosts = this.favouritePosts.filter(

@@ -92,7 +92,7 @@ const removeFavoritePost = catchAsync(async (req, res) => {
 
   const { postId } = req.body;
 
-  // Call to service to remove the favorite post
+  // remove the favorite post
   const updatedUser = await UserService.removeFavoritePost(userId, postId);
 
   sendResponse(res, {

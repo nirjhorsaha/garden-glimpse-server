@@ -8,6 +8,8 @@ const router = express.Router();
 
 router.get('/', UserController.getAllUsers);
 
+
+// Route to update user profile
 router.patch(
   '/update-profile',
   authenticateUser,
@@ -15,18 +17,21 @@ router.patch(
   UserController.updateUserProfile,
 );
 
+// Route to add a post to the user's favorites
 router.post(
   '/favorite-post',
   authenticateUser,
   UserController.addFavoritePost,
 );
 
+// Route to remove a post from the user's favorites
 router.delete(
   '/remove-favorite-post',
   authenticateUser,
   UserController.removeFavoritePost,
 );
 
+// Route to get the user's favorite posts
 router.get(
   '/favorite-posts',
   authenticateUser,

@@ -26,6 +26,7 @@ const updateUser = async (userEmail: string, updateData: Partial<IUser>) => {
   return updatedUser;
 };
 
+
 const addFavoritePost = async (userId: string, postId: string) => {
   // Check if the user already has the post in their favorites
   const user = await User.findById(userId);
@@ -78,7 +79,6 @@ const removeFavoritePost = async (userId: string, postId: string) => {
 };
 
 const getFavoritePosts = async (userId: string) => {
-  // Find the user by ID
   const user = await User.findById(userId).populate('favouritePosts');
 
   if (!user) {

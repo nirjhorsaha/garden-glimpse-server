@@ -15,11 +15,10 @@ export interface IUser {
   favouritePosts?: string[];
 }
 
+//instance methods for checking if the user exist & checking if passwords are matched
 export interface UserModel extends Model<IUser> {
-  //instance methods for checking if the user exist
   findUserByEmail(email: string): Promise<IUser>;
 
-  //instance methods for checking if passwords are matched
   isPasswordMatched(
     plainTextPassword: string,
     hashedPassword: string,
