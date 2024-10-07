@@ -31,6 +31,26 @@ const getAllUsers = catchAsync(async (req, res) => {
   });
 });
 
+const getUserById = catchAsync(async (req, res) => {
+  const { userId } = req.params;
+  const user = await UserService.getUserById(userId);
+
+  if (!user) {
+    return sendResponse(res, {
+      success: false,
+      statusCode: httpStatus.NOT_FOUND,
+      message: 'User not found .!',
+    });
+  }
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Users retrieved successfully',
+    data: user,
+  });
+});
+
 const updateUserProfile = catchAsync(async (req, res) => {
   const token = req.headers.authorization?.split(' ')[1];
   if (!token) {
@@ -132,6 +152,7 @@ const getFavoritePosts = catchAsync(async (req, res) => {
 export const UserController = {
   userSignUp,
   getAllUsers,
+  getUserById,
   updateUserProfile,
   addFavoritePost,
   removeFavoritePost,

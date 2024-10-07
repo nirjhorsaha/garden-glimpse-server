@@ -43,6 +43,16 @@ const userSchema = new Schema<IUser>(
       type: String,
       required: true,
     },
+    followers: {
+      type: [Schema.Types.ObjectId],
+      ref: 'User',
+      default: [],
+    }, // Array of follower IDs
+    followings: {
+      type: [Schema.Types.ObjectId],
+      ref: 'User',
+      default: [],
+    },
     isDeleted: {
       type: Boolean,
       default: false,

@@ -9,6 +9,8 @@ export interface IUser {
   passwordChangedAt?: Date;
   phone: string;
   address: string;
+  followers?: string[];
+  followings?: string[];
   profileImage: string;
   role: 'user' | 'admin';
   isDeleted: boolean;

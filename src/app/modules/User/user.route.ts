@@ -8,6 +8,8 @@ const router = express.Router();
 
 router.get('/', UserController.getAllUsers);
 
+router.get('/:userId', authenticateUser, UserController.getUserById);
+
 // Route to update user profile
 router.patch(
   '/update-profile',

@@ -15,6 +15,16 @@ const getAllUsers = async () => {
   return result;
 };
 
+const getUserById = async (userId: string) => {
+  const user = await User.findById(userId);
+
+  if (!user) {
+    throw new AppError(httpStatus.NOT_FOUND, 'User not found');
+  }
+
+  return user; // Return the found user
+};
+
 const updateUser = async (userEmail: string, updateData: Partial<IUser>) => {
   const updatedUser = await User.findOneAndUpdate(
     { email: userEmail },
@@ -93,6 +103,7 @@ export const UserService = {
   createUser,
   updateUser,
   getAllUsers,
+  getUserById,
   addFavoritePost,
   removeFavoritePost,
   getFavoritePosts,
