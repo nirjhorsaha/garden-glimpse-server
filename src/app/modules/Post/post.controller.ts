@@ -1,3 +1,5 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import catchAsync from '../../utils/catchAsync';
 import sendResponse from '../../utils/sendResponse';
 import httpStatus from 'http-status';
@@ -113,18 +115,51 @@ const updatePost = catchAsync(async (req, res) => {
   const postId = req.params.id;
   const updatedData = req.body;
 
-  const updatedPost = await PostService.updatePost(postId, updatedData);
-
-  if (!updatedPost) {
-    return noDataFound(res, 'Post not found.!');
+  // Extract user ID from the token
+  const token = req.headers.authorization?.split(' ')[1];
+  if (!token) {
+    return sendResponse(res, {
+      success: false,
+      statusCode: httpStatus.UNAUTHORIZED,
+      message: 'Authorization token not found',
+    });
   }
 
-  sendResponse(res, {
-    success: true,
-    statusCode: httpStatus.OK,
-    message: 'Post updated successfully',
-    data: updatedPost,
-  });
+  const decodedToken = verifyToken(token);
+  const decodedUserId = decodedToken.userId;
+  // console.log('Decoded User ID:', decodedUserId);
+
+  const newPostId = new Types.ObjectId(postId);
+  const post = await PostService.getSinglePost(newPostId);
+
+  if (!post) {
+    return noDataFound(res, 'Post not found!');
+  }
+
+  const postAuthorId = post.authorId._id; // Assuming authorId is an ObjectId
+  // console.log('Post Author ID:', postAuthorId);
+
+  // Check if the decoded user ID matches the post author ID
+  if (decodedUserId === postAuthorId.toString()) {
+    // If they are the same, remove upVoteCount and downVoteCount from updatedData
+    const { upVoteCount, downVoteCount, ...otherFields } = updatedData;
+
+    return sendResponse(res, {
+      success: false,
+      statusCode: httpStatus.FORBIDDEN,
+      message: `You are not allowed to update the following fields!`,
+    });
+  } else {
+    // If they are different, allow all fields to be updated
+    const updatedPost = await PostService.updatePost(postId, updatedData);
+
+    sendResponse(res, {
+      success: true,
+      statusCode: httpStatus.OK,
+      message: 'Post updated successfully',
+      data: updatedPost,
+    });
+  }
 });
 
 const deletePost = catchAsync(async (req, res) => {

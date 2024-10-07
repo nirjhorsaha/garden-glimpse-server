@@ -29,7 +29,7 @@ const getAllPosts = async (query: Record<string, unknown>) => {
 };
 
 const getSinglePost = async (postId: Types.ObjectId): Promise<IPost | null> => {
-  return await Post.findById(postId);
+  return await Post.findById(postId).populate('authorId', 'name');
 };
 
 const getSingleUserPost = async (authorId: string) => {
@@ -46,7 +46,10 @@ const getUserPost = async (email: string) => {
     throw new Error(`User with email ${email} not found`);
   }
 
-  const findPost = await Post.find({ authorId: user?._id, isDeleted: false });
+  const findPost = await Post.find({
+    authorId: user?._id,
+    isDeleted: false,
+  }).populate('authorId', 'name');
   return findPost;
 };
 
