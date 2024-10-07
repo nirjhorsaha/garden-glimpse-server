@@ -53,6 +53,10 @@ const userSchema = new Schema<IUser>(
       ref: 'User',
       default: [],
     },
+    profileVerified: {
+      type: Boolean,
+      default: false,
+    },
     isDeleted: {
       type: Boolean,
       default: false,

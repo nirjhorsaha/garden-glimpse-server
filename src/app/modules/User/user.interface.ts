@@ -15,6 +15,7 @@ export interface IUser {
   role: 'user' | 'admin';
   isDeleted: boolean;
   favouritePosts?: string[];
+  profileVerified?: boolean;
 }
 
 //instance methods for checking if the user exist & checking if passwords are matched
