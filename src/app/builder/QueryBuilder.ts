@@ -49,7 +49,7 @@ class QueryBuilder<T> {
 
   // * Sorts the query results based on the provided sort string.
   sort() {
-    const sortField = (this?.query?.sort as string) || 'price'; // Default sort field
+    const sortField = (this?.query?.sort as string) || '-upVoteCount'; // Default sort field
 
     const isDescending = sortField.startsWith('-'); // If the sorting is descending
 
