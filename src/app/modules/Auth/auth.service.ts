@@ -28,6 +28,7 @@ const loginUser = async (payload: TLoginUser) => {
     favouritePosts: user?.favouritePosts,
     followers: user?.followers,
     followings: user?.followings,
+    profileVerified: user?.profileVerified,
   };
 
   // Generate JWT token

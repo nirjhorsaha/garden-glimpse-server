@@ -31,7 +31,7 @@ router.delete(
 // Route to get the user's favorite posts
 router.get(
   '/favorite-posts',
-  authenticateUser,
+  // authenticateUser,
   UserController.getFavoritePosts,
 );
 

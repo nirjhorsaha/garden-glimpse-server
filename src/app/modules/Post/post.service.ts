@@ -36,7 +36,7 @@ const getSingleUserPost = async (authorId: string) => {
   return await Post.find({
     authorId,
     isDeleted: false,
-  });
+  }).populate('authorId', 'name');
 };
 
 const getUserPost = async (email: string) => {

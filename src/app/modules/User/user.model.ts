@@ -36,7 +36,8 @@ const userSchema = new Schema<IUser>(
       required: true,
     },
     favouritePosts: {
-      type: [String],
+      type: [Schema.Types.ObjectId],
+      // ref: 'User',
       default: [],
     },
     profileImage: {

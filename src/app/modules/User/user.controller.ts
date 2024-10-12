@@ -131,7 +131,7 @@ const getFavoritePosts = catchAsync(async (req, res) => {
       'Authorization token not found',
     );
   }
-
+console.log(token)
   const decodedToken = verifyToken(token);
   const userId = decodedToken.userId;
 
