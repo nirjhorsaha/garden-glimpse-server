@@ -139,27 +139,35 @@ const updatePost = catchAsync(async (req, res) => {
   const postAuthorId = post.authorId._id; // Assuming authorId is an ObjectId
   // console.log('Post Author ID:', postAuthorId);
 
+  const updatedPost = await PostService.updatePost(postId, updatedData);
+
+  sendResponse(res, {
+    success: true,
+    statusCode: httpStatus.OK,
+    message: 'Post updated successfully',
+    data: updatedPost,
+  });
   // Check if the decoded user ID matches the post author ID
-  if (decodedUserId === postAuthorId.toString()) {
-    // If they are the same, remove upVoteCount and downVoteCount from updatedData
-    const { upVoteCount, downVoteCount, ...otherFields } = updatedData;
+  // if (decodedUserId === postAuthorId.toString()) {
+  //   // If they are the same, remove upVoteCount and downVoteCount from updatedData
+  //   const { upVoteCount, downVoteCount, ...otherFields } = updatedData;
 
-    return sendResponse(res, {
-      success: false,
-      statusCode: httpStatus.FORBIDDEN,
-      message: `You are not allowed to update the following fields!`,
-    });
-  } else {
-    // If they are different, allow all fields to be updated
-    const updatedPost = await PostService.updatePost(postId, updatedData);
+  //   return sendResponse(res, {
+  //     success: false,
+  //     statusCode: httpStatus.FORBIDDEN,
+  //     message: `You are not allowed to update the following fields!`,
+  //   });
+  // } else {
+  //   // If they are different, allow all fields to be updated
+  //   const updatedPost = await PostService.updatePost(postId, updatedData);
 
-    sendResponse(res, {
-      success: true,
-      statusCode: httpStatus.OK,
-      message: 'Post updated successfully',
-      data: updatedPost,
-    });
-  }
+  //   sendResponse(res, {
+  //     success: true,
+  //     statusCode: httpStatus.OK,
+  //     message: 'Post updated successfully',
+  //     data: updatedPost,
+  //   });
+  // }
 });
 
 const deletePost = catchAsync(async (req, res) => {
