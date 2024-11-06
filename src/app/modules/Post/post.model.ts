@@ -24,8 +24,8 @@ const PostSchema = new Schema<IPost>(
   {
     authorId: {
       type: Schema.Types.ObjectId,
-      required: true,
       ref: 'User',
+      required: true,
     },
     title: {
       type: String,

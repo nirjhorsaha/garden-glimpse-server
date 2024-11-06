@@ -12,7 +12,7 @@ const createPost = async (postData: IPost): Promise<IPost> => {
 
 const getAllPosts = async (query: Record<string, unknown>) => {
   const postQuery = new QueryBuilder(
-    Post.find({ isDeleted: false }).populate('authorId', 'name'),
+    Post.find({ isDeleted: false }).populate('authorId'),
     query,
   )
     .search(PostSearchableFields)
@@ -29,14 +29,31 @@ const getAllPosts = async (query: Record<string, unknown>) => {
 };
 
 const getSinglePost = async (postId: Types.ObjectId): Promise<IPost | null> => {
-  return await Post.findById(postId).populate('authorId', 'name');
+  // return await Post.findById(postId).populate('authorId', 'name');
+  return await Post.findById(postId)
+    .populate('authorId')
+    .populate({
+      path: 'comments',
+      populate: {
+        path: 'commentatorId',
+        model: 'User',
+      },
+    });
 };
 
 const getSingleUserPost = async (authorId: string) => {
   return await Post.find({
     authorId,
     isDeleted: false,
-  }).populate('authorId', 'name');
+  })
+    .populate('authorId')
+    .populate({
+      path: 'comments',
+      populate: {
+        path: 'commentatorId',
+        model: 'User',
+      },
+    });
 };
 
 const getUserPost = async (email: string) => {
@@ -49,7 +66,15 @@ const getUserPost = async (email: string) => {
   const findPost = await Post.find({
     authorId: user?._id,
     isDeleted: false,
-  }).populate('authorId', 'name');
+  })
+    .populate('authorId')
+    .populate({
+      path: 'comments',
+      populate: {
+        path: 'commentatorId',
+        model: 'User',
+      },
+    });
   return findPost;
 };
 
