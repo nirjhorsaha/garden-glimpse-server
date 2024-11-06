@@ -19,18 +19,18 @@ router.patch(
 );
 
 // Route to add a post to the user's favorites
-router.post('/favorite-post', authenticateUser, UserController.addFavoritePost);
+router.post('/post/favorite-post', authenticateUser, UserController.addFavoritePost);
 
 // Route to remove a post from the user's favorites
 router.delete(
-  '/remove-favorite-post',
+  '/post/remove-favorite-post',
   authenticateUser,
   UserController.removeFavoritePost,
 );
 
 // Route to get the user's favorite posts
 router.get(
-  '/favorite-posts',
+  '/post/favorite-posts',
   // authenticateUser,
   UserController.getFavoritePosts,
 );

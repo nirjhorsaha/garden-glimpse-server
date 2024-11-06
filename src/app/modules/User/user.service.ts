@@ -37,32 +37,36 @@ const updateUser = async (userEmail: string, updateData: Partial<IUser>) => {
 };
 
 const addFavoritePost = async (userId: string, postId: string) => {
-  // Check if the user already has the post in their favorites
   const user = await User.findById(userId);
 
   if (!user) {
     throw new AppError(httpStatus.NOT_FOUND, 'User not found');
   }
 
-  // Check if the postId already exists in favouritePosts
-  if (user.favouritePosts && user.favouritePosts.includes(postId)) {
+  if (user.favouritePosts?.includes(postId)) {
     throw new AppError(httpStatus.CONFLICT, 'Post is already in favorites');
   }
 
-  // Add the postId to the user's favouritePosts array
-  user.favouritePosts = [...(user.favouritePosts || []), postId];
+  // Use $addToSet to avoid duplicate entries and only modify the specific field
+  const updatedUser = await User.findByIdAndUpdate(
+    userId,
+    { $addToSet: { favouritePosts: postId } },
+    { new: true } // Return the updated document
+  );
 
-  // Save the updated user document
-  await user.save();
+  if (!updatedUser) {
+    throw new AppError(httpStatus.INTERNAL_SERVER_ERROR, 'Failed to update user');
+  }
 
-  // Populate post details
-  const populatedPosts = await Post.find({ _id: { $in: user.favouritePosts } });
+  // Populate the favorite posts
+  const populatedPosts = await Post.find({ _id: { $in: updatedUser.favouritePosts } });
 
   return {
-    user,
+    user: updatedUser,
     favouritePosts: populatedPosts,
-  }; // Return the updated user along with populated posts
+  };
 };
+
 
 const removeFavoritePost = async (userId: string, postId: string) => {
   // Find the user by ID
@@ -94,7 +98,9 @@ const getFavoritePosts = async (userId: string) => {
   }
 
   // Populate the details of the favorite posts
-  const populatedPosts = await Post.find({ _id: { $in: user.favouritePosts } });
+  const populatedPosts = await Post.find({
+    _id: { $in: user.favouritePosts },
+  }).populate('authorId');
 
   return populatedPosts; // Return the populated favorite posts
 };
