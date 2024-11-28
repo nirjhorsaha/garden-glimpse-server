@@ -10,10 +10,12 @@ const createUser = async (userData: Partial<IUser>) => {
   return user;
 };
 
+
 const getAllUsers = async () => {
   const result = await User.find();
   return result;
 };
+
 
 const getUserById = async (userId: string) => {
   const user = await User.findById(userId);
@@ -25,6 +27,7 @@ const getUserById = async (userId: string) => {
   return user; // Return the found user
 };
 
+
 const updateUser = async (userEmail: string, updateData: Partial<IUser>) => {
   const updatedUser = await User.findOneAndUpdate(
     { email: userEmail },
@@ -35,6 +38,7 @@ const updateUser = async (userEmail: string, updateData: Partial<IUser>) => {
   );
   return updatedUser;
 };
+
 
 const addFavoritePost = async (userId: string, postId: string) => {
   const user = await User.findById(userId);
@@ -51,15 +55,20 @@ const addFavoritePost = async (userId: string, postId: string) => {
   const updatedUser = await User.findByIdAndUpdate(
     userId,
     { $addToSet: { favouritePosts: postId } },
-    { new: true } // Return the updated document
+    { new: true }, // Return the updated document
   );
 
   if (!updatedUser) {
-    throw new AppError(httpStatus.INTERNAL_SERVER_ERROR, 'Failed to update user');
+    throw new AppError(
+      httpStatus.INTERNAL_SERVER_ERROR,
+      'Failed to update user',
+    );
   }
 
   // Populate the favorite posts
-  const populatedPosts = await Post.find({ _id: { $in: updatedUser.favouritePosts } });
+  const populatedPosts = await Post.find({
+    _id: { $in: updatedUser.favouritePosts },
+  });
 
   return {
     user: updatedUser,
@@ -81,14 +90,23 @@ const removeFavoritePost = async (userId: string, postId: string) => {
     throw new AppError(httpStatus.NOT_FOUND, 'Post not found in favorites');
   }
 
-  // Remove the postId from the user's favouritePosts array
-  user.favouritePosts = user.favouritePosts.filter((id) => id !== postId);
+  // Use $pull to remove the postId from the favouritePosts array
+  const updatedUser = await User.findByIdAndUpdate(
+    userId,
+    { $pull: { favouritePosts: postId } }, // Pull the postId from the array
+    { new: true }, // Return the updated document
+  );
 
-  // Save the updated user document
-  await user.save();
+  if (!updatedUser) {
+    throw new AppError(
+      httpStatus.INTERNAL_SERVER_ERROR,
+      'Failed to update user',
+    );
+  }
 
-  return user; // Return the updated user
+  return updatedUser; // Return the updated user
 };
+
 
 const getFavoritePosts = async (userId: string) => {
   const user = await User.findById(userId).populate('favouritePosts');
