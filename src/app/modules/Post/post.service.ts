@@ -156,9 +156,45 @@ const updateComment = async (
 };
 
 // Soft delete a comment
+// const deleteComment = async (
+//   postId: string,
+//   commentId: string,
+// ): Promise<IPost | null> => {
+//   if (
+//     !mongoose.isValidObjectId(postId) ||
+//     !mongoose.isValidObjectId(commentId)
+//   ) {
+//     throw new Error('Invalid post or comment ID');
+//   }
+
+//   // Find the post by ID
+//   const post = await Post.findById(postId);
+//   if (!post) {
+//     throw new Error('Post not found');
+//   }
+//   // Ensure comments array is defined
+//   if (!post.comments) {
+//     throw new Error('No comments found on this post');
+//   }
+
+//   // Find the comment in the comments array
+//   const comment = post.comments.find((c) => c._id!.toString() === commentId);
+//   if (!comment) {
+//     throw new Error('Comment not found');
+//   }
+
+//   // Set `isDeleted` to true for the found comment
+//   comment.isDeleted = true;
+
+//   // Save the updated post
+//   const updatedPost = await post.save();
+
+//   return updatedPost; // Return the updated post with the modified comment
+// };
+
 const deleteComment = async (
   postId: string,
-  commentId: string,
+  commentId: string
 ): Promise<IPost | null> => {
   if (
     !mongoose.isValidObjectId(postId) ||
@@ -172,24 +208,24 @@ const deleteComment = async (
   if (!post) {
     throw new Error('Post not found');
   }
+
   // Ensure comments array is defined
   if (!post.comments) {
     throw new Error('No comments found on this post');
   }
 
-  // Find the comment in the comments array
-  const comment = post.comments.find((c) => c._id!.toString() === commentId);
-  if (!comment) {
-    throw new Error('Comment not found');
+  // Use the delete method on the comment to remove it from the comments array
+  const updatedPost = await Post.updateOne(
+    { _id: postId },
+    { $pull: { comments: { _id: commentId } } }
+  );
+
+  if (updatedPost.modifiedCount === 0) {
+    throw new Error('Failed to delete comment');
   }
 
-  // Set `isDeleted` to true for the found comment
-  comment.isDeleted = true;
-
-  // Save the updated post
-  const updatedPost = await post.save();
-
-  return updatedPost; // Return the updated post with the modified comment
+  // Return the updated post (we're assuming you might want to return the updated post or its new state)
+  return Post.findById(postId);
 };
 
 const getCommentById = async (postId: string, commentId: string) => {

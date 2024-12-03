@@ -39,12 +39,22 @@ const UpdatePostSchema = z.object({
     title: z.string().min(1, 'Title is required.').optional(),
     content: z.string().min(1, 'Content is required.').optional(),
     category: z
-      .enum(['Vegetables', 'Flowers', 'Landscaping', 'Succulents', 'Indoor Plants', 'Others'], {
-        errorMap: () => ({
-          message:
-            'Category must be one of: Vegetables, Flowers, Landscaping, Succulents, Indoor Plants Others.',
-        }),
-      })
+      .enum(
+        [
+          'Vegetables',
+          'Flowers',
+          'Landscaping',
+          'Succulents',
+          'Indoor Plants',
+          'Others',
+        ],
+        {
+          errorMap: () => ({
+            message:
+              'Category must be one of: Vegetables, Flowers, Landscaping, Succulents, Indoor Plants Others.',
+          }),
+        },
+      )
       .optional(),
     images: z
       .array(z.string().url('Each image must be a valid URL.'))

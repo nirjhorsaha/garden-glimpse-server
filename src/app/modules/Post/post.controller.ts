@@ -127,7 +127,6 @@ const updatePost = catchAsync(async (req, res) => {
 
   const decodedToken = verifyToken(token);
   const decodedUserId = decodedToken.userId;
-  // console.log('Decoded User ID:', decodedUserId);
 
   const newPostId = new Types.ObjectId(postId);
   const post = await PostService.getSinglePost(newPostId);
@@ -136,8 +135,7 @@ const updatePost = catchAsync(async (req, res) => {
     return noDataFound(res, 'Post not found!');
   }
 
-  const postAuthorId = post.authorId._id; // Assuming authorId is an ObjectId
-  // console.log('Post Author ID:', postAuthorId);
+  const postAuthorId = post.authorId._id;
 
   const updatedPost = await PostService.updatePost(postId, updatedData);
 
@@ -147,6 +145,7 @@ const updatePost = catchAsync(async (req, res) => {
     message: 'Post updated successfully',
     data: updatedPost,
   });
+  
   // Check if the decoded user ID matches the post author ID
   // if (decodedUserId === postAuthorId.toString()) {
   //   // If they are the same, remove upVoteCount and downVoteCount from updatedData
@@ -190,13 +189,16 @@ const deletePost = catchAsync(async (req, res) => {
 // Add a comment on a post
 const addComment = catchAsync(async (req, res) => {
   const postId = req.params.id;
-  const { commentatorId, comment } = req.body;
+  // const { commentatorId, comment } = req.body;
+  const data = req.body;
 
   const commentData = {
-    commentatorId,
-    comment,
+    commentatorId: data.commentatorId,
+    comment: data.comment,
     isDeleted: false,
   };
+
+  // console.log(data, commentData);
 
   const updatedPost = await PostService.addComment(postId, commentData);
 
