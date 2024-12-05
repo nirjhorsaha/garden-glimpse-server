@@ -105,9 +105,22 @@ const refreshToken = async (token: string) => {
   //   throw new AppError(httpStatus.NOT_FOUND, 'This user is not found !');
   // }
 
+  // const jwtPayload = {
+  //   email: user.email,
+  //   role: user.role,
+  // };
   const jwtPayload = {
+    userId: user?._id,
+    name: user?.name,
     email: user.email,
     role: user.role,
+    profileImage: user?.profileImage,
+    address: user?.address,
+    phone: user?.phone,
+    favouritePosts: user?.favouritePosts,
+    followers: user?.followers,
+    followings: user?.followings,
+    profileVerified: user?.profileVerified,
   };
 
   const accessToken = createToken(
